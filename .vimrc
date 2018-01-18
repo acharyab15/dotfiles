@@ -1,144 +1,117 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+"----------------------
+""" Setup
+"----------------------
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+"don't try to be vi compatible
+set nocompatible
 
-" let Vundle manage Vundle, required
-Plugin 'Valloric/YouCompleteMe'
+" Helps force plugins to load correctly when it is turned back on below
+ filetype on 
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+"" TODO: Load plugins here (pathogen or vundle)
 
-set autoindent
-set ts=4
-filetype on
+"" Turn on syntax highlighting
+ syntax on
 
-syntax on
-set ignorecase
-set smartcase
-set hlsearch
+"" For plugins to load correctly
+ filetype plugin indent on
+
+""Pick a leader key
+let mapleader = ","
+
+" " Security
 set modelines=0
-set wildmenu
-set wildmode=longest:full
-set nu "line numbers
 
-"for indenting
-set expandtab
-set shiftwidth=4
-set tabstop=4
-set smarttab
-vmap <Tab> >gv
-vmap <S-Tab> <gv
-inoremap <S-Tab> <C-D>
+set number  "Show line numbers
 
-set lbr "word wrap
-set tw=500
+set ruler "Show file stats
 
-set wrap "Wrap lines
+" " Blink cursor on error instead of beeping (grr)
+" set visualbell
 
-" scrolling
-inoremap <C-E> <C-X><C-E> "scrolling on insert
-inoremap <C-Y> <C-X><C-Y>
-set scrolloff=3 " keep three lines between the cursor and the edge of the screen
+"" Encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+set bomb " more utf-8 encoding goodness
+set binary " this way you can edit binary files -- because you know, binary
+set ttyfast " stop everything from scrolling so dang slow
 
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = " " " Leader is the space key
-let g:mapleader = " "
-"auto indent for brackets
-inoremap {<CR> {<CR>}<Esc>O
-" easier write
-nmap <leader>w :w!<cr>
-" easier quit
-nmap <leader>q :q<cr>
-" silence search highlighting
-nnoremap <leader>sh :nohlsearch<Bar>:echo<CR>
-"paste from outside buffer
-nnoremap <leader>p :set paste<CR>"+p:set nopaste<CR>
-vnoremap <leader>p <Esc>:set paste<CR>gv"+p:set nopaste<CR>
-"copy to outside buffer
-vnoremap <leader>y "+y
-"select all
-nnoremap <leader>a ggVG
-"paste from 0 register
-"Useful because `d` overwrites the <quote> register
-nnoremap <leader>P "0p
-vnoremap <leader>P "0p
+"" Whitespace
+ set wrap
+ set textwidth=79
+ set formatoptions=tcqrn1
 
-nnoremap <C-l> :tabnext<CR>
-nnoremap <C-h> :tabprevious<CR>
+"" Tabs
+set tabstop=4 "tabs are equal to 4 spaces
+set shiftwidth=4 "4 spaces for auto shfts
+set softtabstop=0
+set expandtab "turns tab characters into spaces
+ set noshiftround
 
-"nnoremap tj  :tabnext<CR>
-
-set mouse=a
-
-" move in long lines
-nnoremap k gk
-nnoremap j gj
-
-" vimslime
-"let g:slime_target = "tmux"
-"nmap <C-C><C-N> :set ft=haskell.script<CR><C-C><C-C>:set ft=haskell<CR>
-
-" pathogen
-execute pathogen#infect()
-
-" persistent undo
-if !isdirectory($HOME."/.dotfiles/vim/undodir")
-    call mkdir($HOME."/.dotfiles/vim/undodir", "p")
-endif
-
-set undodir=~/.vim/undodir
-set undofile
-set undolevels=1000 "maximum number of changes that can be undone
-set undoreload=10000 "maximum number lines to save for undo on a buffer reload
-
-" vp doesn't replace paste buffer
-function! RestoreRegister()
-  let @" = s:restore_reg
-  return ''
-endfunction
-function! s:Repl()
-  let s:restore_reg = @"
-  return "p@=RestoreRegister()\<cr>"
-endfunction
-vmap <silent> <expr> p <sid>Repl()
-
-" markdown also starts with .md
-autocmd BufNewFile,BufRead *.md set filetype=markdown
-
-" fzf command
-set rtp+=~/.fzf
-
-nnoremap <leader>t :call fzf#run({ 'sink': 'tabe', 'options': '-m +c', 'dir': '.', 'source': 'find .' })<CR>
-
-" ctags looks in the right directory
-set tags=./.tags,.tags;$HOME
-nnoremap <C-}> g<C-]>
-nnoremap <C-[> <C-t>
-
-
-" Run python when typing <leader>r
-noremap <buffer> <leader>r :w<cr> :exec '!python' shellescape(@%, 1)<cr>
-
-"ycm
-"let g:ycm_global_ycm_extra_conf = '~/.dotfiles/vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
-"let g:ycm_confirm_extra_conf = 0 " Don't ask for confirmation about ycm_extra_conf
+"" Cursor motion
+ set scrolloff=3
+set backspace=indent,eol,start
+ set matchpairs+=<:> " use % to jump between pairs
+ runtime! macros/matchit.vim
 "
-" From http://stackoverflow.com/questions/3105307/how-do-you-automatically-remove-the-preview-window-after-autocompletion-in-vim
-" If you prefer the Omni-Completion tip window to close when a selection is
-" made, these lines close it on movement in insert mode or when leaving
-" insert mode
-"autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+" " Move up/down editor lines
+" nnoremap j gj
+" nnoremap k gk
+"
+"" Allow hidden buffers
+ set hidden
 
-" Red coloring at whitespace after end of line whitespace
-autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
-autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
-highlight EOLWS ctermbg=red guibg=red
+" " Rendering
+set ttyfast
 
+"" Status bar always
+ set laststatus=2
+"
+" " Last line
+ set showmode
+ set showcmd
+"
+" " Searching
+" nnoremap / /\v
+" vnoremap / /\v
+ set hlsearch
+ set incsearch
+ set ignorecase
+ set smartcase
+ set showmatch
+" map <leader><space> :let @/=''<cr> " clear search
+"
+" " Remap help key.
+" inoremap <F1> <ESC>:set invfullscreen<CR>a
+" nnoremap <F1> :set invfullscreen<CR>
+" vnoremap <F1> :set invfullscreen<CR>
+"
+" " Textmate holdouts
+"
+" " Formatting
+" map <leader>q gqip
+"
+" " Visualize tabs and newlines
+" set listchars=tab:▸\ ,eol:¬
+" " Uncomment this to enable by default:
+" " set list " To enable by default
+" " Or use your leader key + l to toggle on/off
+" map <leader>l :set list!<CR> " Toggle tabs and EOL
+
+"" Opens an edit command with the path of the currently edited file filled in
+noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
+"" Opens a tab edit command with the path of the currently edited file filled
+noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
+
+
+"
+" " Color scheme (terminal)
+ set t_Co=256
+ set background=dark
+ let g:solarized_termcolors=256
+ let g:solarized_termtrans=1
+" "  put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
+" " in ~/.vim/colors/ and uncomment:
+ " colorscheme Solarized
