@@ -25,10 +25,18 @@ set modelines=0
 set number  "Show line numbers
 
 set ruler "Show file stats
+set history=1000         " remember more commands and search history
+set undolevels=1000      " use many muchos levels of undo
+set nobackup             " vim doesn't write backup or swap files
+set noswapfile
+
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
 " " Blink cursor on error instead of beeping (grr)
-" set visualbell
-
+" set visualbell "don't beep
+set title                " change the terminal's title
+set mouse=a  "enable mouse
 "" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
@@ -44,7 +52,7 @@ set ttyfast " stop everything from scrolling so dang slow
 
 "" Tabs
 set tabstop=4 "tabs are equal to 4 spaces
-set shiftwidth=4 "4 spaces for auto shfts
+set shiftwidth=4 "number of spaces to use for autoindenting
 set softtabstop=0
 set expandtab "turns tab characters into spaces
  set noshiftround
@@ -56,8 +64,8 @@ set backspace=indent,eol,start
  runtime! macros/matchit.vim
 "
 " " Move up/down editor lines
-" nnoremap j gj
-" nnoremap k gk
+nnoremap j gj
+nnoremap k gk
 "
 "" Allow hidden buffers
  set hidden
@@ -65,21 +73,32 @@ set backspace=indent,eol,start
 " " Rendering
 set ttyfast
 
+" Vim switches to paste mode, removing formatting
+set pastetoggle=<F2>
+
 "" Status bar always
  set laststatus=2
 "
 " " Last line
  set showmode
  set showcmd
-"
-" " Searching
+
+"" Searching
 " nnoremap / /\v
 " vnoremap / /\v
- set hlsearch
- set incsearch
- set ignorecase
- set smartcase
- set showmatch
+ set hlsearch "highlight search terms
+ set incsearch "show search matches as I type
+ set ignorecase "ignore case when searching
+ set smartcase "ignore case if search pattern is all lowercase,
+               "case-sensitive otherwise
+ set showmatch "set show matching parenthesis
+
+" Easy window navigation
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+ 
 " map <leader><space> :let @/=''<cr> " clear search
 "
 " " Remap help key.
