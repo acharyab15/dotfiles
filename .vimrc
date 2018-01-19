@@ -92,7 +92,7 @@ set pastetoggle=<F2>
  set smartcase "ignore case if search pattern is all lowercase,
                "case-sensitive otherwise
  set showmatch "set show matching parenthesis
-
+nmap <silent> ,/ :nohlsearch<CR>
 " Easy window navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
