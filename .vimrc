@@ -47,7 +47,7 @@ set ttyfast " stop everything from scrolling so dang slow
 
 "" Whitespace
  set wrap
- set textwidth=79
+ ""set textwidth=79
  set formatoptions=tcqrn1
 
 "" Tabs
@@ -56,7 +56,14 @@ set shiftwidth=4 "number of spaces to use for autoindenting
 set softtabstop=0
 set expandtab "turns tab characters into spaces
  set noshiftround
-
+" Folding {{{
+"=== folding ===
+set foldmethod=marker   " fold based on indent level
+set foldnestmax=10      " max 10 depth
+set foldenable          " don't fold files by default on open
+nnoremap <space> za
+set foldlevelstart=10   " start with fold level of 1
+" }}}
 "" Cursor motion
  set scrolloff=3
 set backspace=indent,eol,start
@@ -124,8 +131,6 @@ noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 "" Opens a tab edit command with the path of the currently edited file filled
 noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
-
-"
 " " Color scheme (terminal)
  set t_Co=256
  set background=dark
@@ -134,3 +139,19 @@ noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 " "  put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
 " " in ~/.vim/colors/ and uncomment:
  " colorscheme Solarized
+ 
+ 
+ " vim:foldmethod=marker:foldlevel=0
+
+ " Execute this for syntastic
+execute pathogen#infect()
+
+" Configurations for syntastic (don't know what they do yet)
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
