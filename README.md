@@ -2,7 +2,7 @@
 
 # vimrc
 
-A lot of good stuff from this page for python/VIM integration -- https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
+A lot of good stuff from this page for python/VIM integration --https://www.fullstackpython.com/vim.html
 
 # acd\_func.sh
 -- extends bash's CD to keep, display and access history of visited directory names
