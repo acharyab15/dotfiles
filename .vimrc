@@ -1,6 +1,6 @@
-"==================================
+"================================
 " Vundle
-"==================================
+"================================
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 " set the runtime path to include my-snippets
@@ -16,8 +16,6 @@ Plugin 'vim-scripts/indentpython.vim' "conform to PEP8 indentation
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'jnurmine/Zenburn' "colors
 Plugin 'altercation/vim-colors-solarized' "colors
-Plugin 'scrooloose/nerdtree' "NERDTree
-Plugin 'jistr/vim-nerdtree-tabs' "To use nerdtree tabs
 Plugin 'tpope/vim-commentary' "For comments
 Plugin 'kien/ctrlp.vim' "Search for anything with VIM
 Plugin 'tpope/vim-fugitive' "Git commands in VIM
@@ -35,17 +33,17 @@ Plugin 'davidhalter/jedi-vim' "jedi autocompletion library
 " All Plugins must be added before the following line
 call vundle#end()            " required
 
-"==================================
+"================================
 " VIM Basic Setup
-"==================================
+"================================
 set nocompatible              " required
 filetype off                  " required
 "" Cleanup whitespace on save (work with vim-better-whitespace)
 autocmd BufEnter * EnableStripWhitespaceOnSave
 
-"==================================
+"================================
 " Colors
-"==================================
+"================================
 " Which scheme to use based on VIM mode
 if has('gui_running')
   set background=dark
@@ -57,9 +55,9 @@ endif
 call togglebg#map("<F5>") "switch between dark and light solarized
 syntax enable          " enable syntax processing
 
-"==================================
+"================================
 " Spaces & Tabs
-"==================================
+"================================
 au BufNewFile,BufRead *.py
     \ set tabstop=4     "VIM uses this many spaces to show <TAB>
     \ set softtabstop=4 "number of spaces inserted when hit <TAB>
@@ -68,9 +66,9 @@ au BufNewFile,BufRead *.py
     \ set expandtab
     \ set autoindent
     \ set fileformat=unix "so that no conversion issues
-"==================================
+"================================
 " UI Config
-"==================================
+"================================
 set number             " show line numbers
 set showcmd            " show command in bottom bar
 filetype indent on     " load filetype-specific indent files
@@ -78,10 +76,10 @@ set wildmenu           " graphical/visual autocomplete for command menu
 set lazyredraw         " redraw only when we need to
 set showmatch          " highlight matching [{(_}]
 set clipboard=unnamed  " access system clipboard
-
-"==================================
+set mouse=a	       " enable mouse
+"================================
 " Splitting screens
-"==================================
+"================================
 set splitbelow
 set splitright
 
@@ -91,18 +89,20 @@ nnoremap <C-K> <C-W><C-K>   " ctrl-k move to split above
 nnoremap <C-L> <C-W><C-L>   " right
 nnoremap <C-H> <C-W><C-H>   " left
 
-"==================================
+"================================
 " Searching
-"==================================
+"================================
 set incsearch          " search as characters are entered
 set hlsearch           " highlight matches
+set smartcase
+set ignorecase
 
 " turn off search highligh
 nnoremap <leader><space> :nohlsearch<CR>
 
-"==================================
+"================================
 " Movement
-"==================================
+"================================
 
 " move vertically by visual line
 nnoremap j gj
@@ -115,9 +115,9 @@ nnoremap E $
 " highlight last inserted text
 nnoremap gV `[v`]
 
-"=================================
+"================================
 " Leader Shortcuts
-"=================================
+"================================
 
 let mapleader=","            "leader is comma
 
