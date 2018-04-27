@@ -22,7 +22,14 @@ Plugin 'SirVer/ultisnips' "Snippets plugin
 Plugin 'honza/vim-snippets' "get default snippets
 Plugin 'klen/python-mode' "make vim amazing
 Plugin 'davidhalter/jedi-vim' "jedi autocompletion library
-
+"++++++++++++++++++++++++++++++++++++++
+Plugin 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
+"======================================
+Plugin 'leafgarland/typescript-vim' "typescript highlighting
+Plugin 'burnettk/vim-angular'
+Plugin 'pangloss/vim-javascript'
+Plugin 'Quramy/tsuquyomi'
+"========================================
 " Plugins used previously that might
 " not be necessary after python-mode
 " Plugin 'w0rp/ale' "async linting
@@ -41,7 +48,12 @@ call vundle#end()            " required
 " VIM Basic Setup
 "================================
 set nocompatible              " required
+set noswapfile
+set autoread
+set backspace=indent,eol,start " fix backspace indent 
+set hidden			" for saving undo
 filetype off                  " required
+set foldmethod=marker
 "" Cleanup whitespace on save (work with vim-better-whitespace)
 call pathogen#infect()
 call pathogen#helptags()
@@ -71,6 +83,14 @@ au BufNewFile,BufRead *.py
     \ set expandtab
     \ set autoindent
     \ set fileformat=unix "so that no conversion issues
+au BufNewFile,BufRead *.html, *.ts
+    \ set shiftwidth=2  "<TAB> becomes 'insert four spaces'
+    \ set softtabstop=2
+    \ set textwidth=79  "line under 80 characters
+    \ set smarttab
+    \ set expandtab
+    \ set smartindent
+    \ set filetype=html 
 "================================
 " UI Config
 "================================
@@ -83,6 +103,7 @@ set lazyredraw         " redraw only when we need to
 set showmatch          " highlight matching [{(_}]
 set clipboard=unnamed  " access system clipboard
 set mouse=a	       " enable mouse
+
 "================================
 " Splitting screens
 "================================
@@ -105,6 +126,8 @@ set ignorecase
 
 " turn off search highligh
 nnoremap <leader><space> :nohlsearch<CR>
+" better paste
+xnoremap p pgvy
 
 "================================
 " Movement
@@ -208,3 +231,30 @@ let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
 " Don't autofold code
 let g:pymode_folding = 0
+
+
+"===============================
+" Go configurations
+"===============================
+let g:go_fmt_command = "goimports"     "format with goimports insstead of gofmt
+" let g:go_fmt_autosave = 0            "disable fmt on save
+set autowrite			       
+map <C-n> :cnext<CR>		       "jump between errors in quickfix list
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
