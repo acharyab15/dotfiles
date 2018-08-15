@@ -14,21 +14,26 @@ Plugin 'jnurmine/Zenburn' "colors
 Plugin 'altercation/vim-colors-solarized' "colors
 Plugin 'tpope/vim-commentary' "For comments
 Plugin 'airblade/vim-gitgutter' "git diff in the sign column ('gutter')
+Plugin 'mileszs/ack.vim' "use ack or ag for vim
 Plugin 'kien/ctrlp.vim' "Search for anything with VIM
 Plugin 'tpope/vim-fugitive' "Git commands in VIM
 Plugin 'vim-airline/vim-airline' "Awesome tabline for vim
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'SirVer/ultisnips' "Snippets plugin
-Plugin 'honza/vim-snippets' "get default snippets
+" Plugin 'SirVer/ultisnips' "Snippets plugin
+" Plugin 'honza/vim-snippets' "get default snippets
 Plugin 'klen/python-mode' "make vim amazing
 Plugin 'davidhalter/jedi-vim' "jedi autocompletion library
 "++++++++++++++++++++++++++++++++++++++
 Plugin 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
+"--------------------------------------
+Plugin 'christoomey/vim-tmux-navigator' "navigate between vim panes and tmux splits
 "======================================
 Plugin 'leafgarland/typescript-vim' "typescript highlighting
 Plugin 'burnettk/vim-angular'
 Plugin 'pangloss/vim-javascript'
 Plugin 'Quramy/tsuquyomi'
+"======================================
+Plugin 'mattn/emmet-vim' "html for vim
 "========================================
 " Plugins used previously that might
 " not be necessary after python-mode
@@ -58,19 +63,23 @@ set foldmethod=marker
 call pathogen#infect()
 call pathogen#helptags()
 
+"" Set undo directory at vim_temp for multi session undo
+set undodir=/Users/acharyab/.vim_temp
+set undofile
 "================================
 " Colors
 "================================
 " Which scheme to use based on VIM mode
 if has('gui_running')
-  set background=dark
-  colorscheme solarized
+set background=dark
+colorscheme solarized
 else
-  colorscheme zenburn
+colorscheme zenburn
 endif
 
 call togglebg#map("<F5>") "switch between dark and light solarized
 syntax enable          " enable syntax processing
+autocmd ColorScheme * highlight StatusLine ctermbg=darkgray cterm=NONE guibg=darkgray gui=NONE
 
 "================================
 " Spaces & Tabs
@@ -83,18 +92,16 @@ au BufNewFile,BufRead *.py
     \ set expandtab
     \ set autoindent
     \ set fileformat=unix "so that no conversion issues
-au BufNewFile,BufRead *.html, *.ts
-    \ set shiftwidth=2  "<TAB> becomes 'insert four spaces'
-    \ set softtabstop=2
-    \ set textwidth=79  "line under 80 characters
-    \ set smarttab
-    \ set expandtab
-    \ set smartindent
-    \ set filetype=html 
 "================================
 " UI Config
 "================================
-set number             " show line numbers
+set number relativenumber             " show line numbers relative to the current line
+" hybrid line numbers 
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
 set showcmd            " show command in bottom bar
 filetype indent on     " load filetype-specific indent files
 filetype plugin indent on "load filetype-specific indent files
@@ -107,7 +114,7 @@ set mouse=a	       " enable mouse
 "================================
 " Splitting screens
 "================================
-set splitbelow
+set splitbelow "natural splitting
 set splitright
 
 "split navigations
@@ -115,7 +122,6 @@ nnoremap <C-J> <C-W><C-J>   " ctrl-j move to split below
 nnoremap <C-K> <C-W><C-K>   " ctrl-k move to split above
 nnoremap <C-L> <C-W><C-L>   " right
 nnoremap <C-H> <C-W><C-H>   " left
-
 "================================
 " Searching
 "================================
@@ -150,7 +156,16 @@ nnoremap gV `[v`]
 
 let mapleader=","            "leader is comma
 
-
+" ==============================
+" Abbreviations
+" ==============================
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Wq wq
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
 "================================
 "Python specific
 "================================
@@ -181,7 +196,16 @@ let g:airline#extensions#tabline#formatter = 'default' "path formatter
 " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+"===============================
+" Ack settings 
+"===============================
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
 
+" don't jump to first result and map
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
 "===============================
 " Python-mode config
 "===============================
@@ -260,3 +284,7 @@ autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 " represent single tab as 4 spaces
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+
+let g:go_version_warning=0
+let g:go_metalinter_enabled=1
+let g:go_metalinter_autosave=1
