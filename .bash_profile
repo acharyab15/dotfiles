@@ -5,7 +5,8 @@ local GREEN="\[\033[0;32m\]"
 local CYAN="\[\033[0;36m\]"
 local GRAY="\[\033[0;37m\]"
 local BLUE="\[\033[0;34m\]"
-export PS1="__________________     | \w ${GREEN} (\u) ${CYAN}  @ \h ${CYAN} \n |  => "
+local RED="\[\033[1;31m\]"
+export PS1="${RED}__________      | ${BLUE}\w${GREEN} (\u)${CYAN} @ \h\n ${WHITE}|  => "
 export PS2="| => "
 }
 prompt
@@ -45,7 +46,7 @@ alias v='vim'
 alias p='python3'
 alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
 alias ..='cd ../'                           # Go back 1 directory level
-alias ...='cd ../../'                       # Go back 2 directory levels
+alias .2='cd ../../'                       # Go back 2 directory levels
 alias .3='cd ../../../'                     # Go back 3 directory levels
 alias .4='cd ../../../../'                  # Go back 4 directory levels
 alias .5='cd ../../../../../'               # Go back 5 directory levels
@@ -56,10 +57,25 @@ alias f='open -a Finder ./'                 # f:            Opens current direct
 alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable Paths
 mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
 trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
-
+gcm () { git commit -am "$1"; }
+grm () { git rm -f "$1"; }
+alias gs='git status'
+alias gp='git pull'
+alias gh='git push'
+alias ga='git add'
+kubexec() {
+	kubectl exec -ti $(kubectl get pods | awk ' { print $1 } ' | grep "$1") bash
+}
 #   lr:  Full Recursive Directory Listing
 #   ------------------------------------------
 alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
+
+#NVM stuff
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+
+
+export PATH="/usr/local/bin/python3:$PATH"
 
 #   ttop:  Recommended 'top' invocation to minimize resources
 #   ------------------------------------------------------------
@@ -68,3 +84,14 @@ alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\
 #   ------------------------------------------------------------
     alias ttop="top -R -F -s 10 -o rsize"
 
+
+# # added by Anaconda3 5.0.1 installer
+# export PATH="/anaconda3/bin:$PATH"
+
+# # The next line updates PATH for the Google Cloud SDK.
+# if [ -f '/Users/acharyab/google-cloud-sdk/path.bash.inc' ]; then source '/Users/acharyab/google-cloud-sdk/path.bash.inc'; fi
+
+# # The next line enables shell command completion for gcloud.
+# if [ -f '/Users/acharyab/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/acharyab/google-cloud-sdk/completion.bash.inc'; fi
+
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
