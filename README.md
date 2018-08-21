@@ -4,6 +4,10 @@
 
 A lot of good stuff from this page for python/VIM integration --https://www.fullstackpython.com/vim.html
 
+# Some simple, yet amazing key mappings
+
+`map 0 ^`     Remap VIM 0 to first non-blank character
+
 # acd\_func.sh
 -- extends bash's CD to keep, display and access history of visited directory names
 
