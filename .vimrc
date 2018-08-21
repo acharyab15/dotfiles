@@ -37,7 +37,7 @@ Plugin 'mattn/emmet-vim' "html for vim
 "========================================
 " Plugins used previously that might
 " not be necessary after python-mode
-" Plugin 'w0rp/ale' "async linting
+Plugin 'w0rp/ale' "async linting
 " Plugin 'maralla/completor.vim' "Async completion
 " Plugin 'vim-scripts/indentpython.vim' "conform to PEP8 indentation
 " Make sure any trailing whitespace is highlighted and deleted
@@ -63,6 +63,7 @@ set foldmethod=marker
 call pathogen#infect()
 call pathogen#helptags()
 
+
 "" Set undo directory at vim_temp for multi session undo
 set undodir=/Users/acharyab/.vim_temp
 set undofile
@@ -84,7 +85,7 @@ autocmd ColorScheme * highlight StatusLine ctermbg=darkgray cterm=NONE guibg=dar
 "================================
 " Spaces & Tabs
 "================================
-au BufNewFile,BufRead *.py
+au BufNewFile,BufRead *.py, *.cpp, *.hpp
     \ set tabstop=4     "VIM uses this many spaces to show <TAB>
     \ set softtabstop=4 "number of spaces inserted when hit <TAB>
     \ set shiftwidth=4  "<TAB> becomes 'insert four spaces'
@@ -107,7 +108,7 @@ filetype indent on     " load filetype-specific indent files
 filetype plugin indent on "load filetype-specific indent files
 set wildmenu           " graphical/visual autocomplete for command menu
 set lazyredraw         " redraw only when we need to
-set showmatch          " highlight matching [{(_}]
+set showmatch          " highlight matching [{(_)}]
 set clipboard=unnamed  " access system clipboard
 set mouse=a	       " enable mouse
 
@@ -130,10 +131,11 @@ set hlsearch           " highlight matches
 set smartcase
 set ignorecase
 
-" turn off search highligh
-nnoremap <leader><space> :nohlsearch<CR>
 " better paste
 xnoremap p pgvy
+
+" Remap VIM 0 to first non-blank character
+map 0 ^
 
 "================================
 " Movement
@@ -153,9 +155,13 @@ nnoremap gV `[v`]
 "================================
 " Leader Shortcuts
 "================================
-
 let mapleader=","            "leader is comma
-
+nnoremap <leader><space> :nohlsearch<CR> "turn off search highlight
+nmap <leader>w :w!<cr>        " Fast saving
+map <leader>bd :Bclose<cr>:tabclose<cr>gT "Close the current buffer
+map <leader>ba :bufdo bd<cr>  "Close all the buffers
+map <leader>l :bnext<cr>  " Go to next buffer
+map <leader>h :bprevious<cr> " Go to previous buffer
 " ==============================
 " Abbreviations
 " ==============================
