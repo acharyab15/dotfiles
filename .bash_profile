@@ -1,3 +1,5 @@
+source ~/kube-prompt.sh
+
 function prompt
 {
 local WHITE="\[\033[1;37m\]"
@@ -6,7 +8,7 @@ local CYAN="\[\033[0;36m\]"
 local GRAY="\[\033[0;37m\]"
 local BLUE="\[\033[0;34m\]"
 local RED="\[\033[1;31m\]"
-export PS1="${RED}__________      | ${BLUE}\w${GREEN} (\u)${CYAN} @ \h\n ${WHITE}|  => "
+export PS1="${RED}__________      | ${BLUE}\w ${WHITE} |  => "
 export PS2="| => "
 }
 prompt
@@ -66,13 +68,11 @@ alias ga='git add'
 kubexec() {
 	kubectl exec -ti $(kubectl get pods | awk ' { print $1 } ' | grep "$1") bash
 }
+alias gg=lazygit
 #   lr:  Full Recursive Directory Listing
 #   ------------------------------------------
 alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
 
-#NVM stuff
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
 
 
 export PATH="/usr/local/bin/python3:$PATH"
@@ -94,4 +94,7 @@ export PATH="/usr/local/bin/python3:$PATH"
 # # The next line enables shell command completion for gcloud.
 # if [ -f '/Users/acharyab/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/acharyab/google-cloud-sdk/completion.bash.inc'; fi
 
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+
+#NVM stuff
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
