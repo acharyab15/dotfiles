@@ -14,6 +14,11 @@ A lot of good stuff from this page for python/VIM integration --https://www.full
 `map <leader>l :bnext<cr>`       Go to next buffer   
 `map <leader>h :bprevious<cr>`        Go to previous buffer   
 
+# Tools for improvement
+
+[bat][https://github.com/sharkdp/bat] -- better than cat
+[fzf][https://github.com/junegunn/fzf] -- fuzzy file finder on terminal
+htop
 
 # acd\_func.sh
 -- extends bash's CD to keep, display and access history of visited directory names
