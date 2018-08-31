@@ -1,10 +1,11 @@
 # dotfiles
 
-# vimrc
+# VIM
 
-A lot of good stuff from this page for python/VIM integration --https://www.fullstackpython.com/vim.html
 
-# Some simple, yet amazing key mappings
+A lot of good stuff from [this](https://www.fullstackpython.com/vim.html) page for python/VIM integration
+
+### Some simple, yet amazing key mappings
 
 `map 0 ^`     Remap VIM 0 to first non-blank character
 
@@ -16,11 +17,13 @@ A lot of good stuff from this page for python/VIM integration --https://www.full
 
 # Tools for improvement
 
-[bat][https://github.com/sharkdp/bat] -- better than cat.   
-[fzf][https://github.com/junegunn/fzf] -- fuzzy file finder on terminal.   
+
+[bat](https://github.com/sharkdp/bat) -- better than cat.   
+[fzf](https://github.com/junegunn/fzf) -- fuzzy file finder on terminal.   
 htop    
 
 # acd\_func.sh
+
 -- extends bash's CD to keep, display and access history of visited directory names
 
 A script which defines a CD replacement function in order to keep, display and access history of visited directories. Normally the script will be sourced at the end of .bashrc.
