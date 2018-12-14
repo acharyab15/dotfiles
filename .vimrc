@@ -6,7 +6,12 @@ set rtp+=~/.vim/bundle/Vundle.vim
 " set the runtime path to include my-snippets
 set rtp+=~/.vim/my-snippets/
 
-call vundle#begin()"
+" Silently execute python3 on top of vimrc
+if has('python3')
+  silent! python3 1
+endif
+
+call vundle#begin()
 
 " Vundle plugins here
 Plugin 'gmarik/Vundle.vim'  " let Vundle manage Vundle
@@ -21,19 +26,22 @@ Plugin 'vim-airline/vim-airline' "Awesome tabline for vim
 Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'SirVer/ultisnips' "Snippets plugin
 " Plugin 'honza/vim-snippets' "get default snippets
-Plugin 'klen/python-mode' "make vim amazing
-Plugin 'davidhalter/jedi-vim' "jedi autocompletion library
+" Plugin 'python-mode/python-mode', { 'branch': 'develop' } "make vim amazing
+" -------------------------------------
+Plugin 'Shougo/deoplete.nvim'
+Plugin 'roxma/nvim-yarp'
+Plugin 'roxma/vim-hug-neovim-rpc'
 "++++++++++++++++++++++++++++++++++++++
 Plugin 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
 "--------------------------------------
 Plugin 'christoomey/vim-tmux-navigator' "navigate between vim panes and tmux splits
 "======================================
-Plugin 'leafgarland/typescript-vim' "typescript highlighting
-Plugin 'burnettk/vim-angular'
-Plugin 'pangloss/vim-javascript'
-Plugin 'Quramy/tsuquyomi'
-"======================================
-Plugin 'mattn/emmet-vim' "html for vim
+"Plugin 'leafgarland/typescript-vim' "typescript highlighting
+"Plugin 'burnettk/vim-angular'
+"Plugin 'pangloss/vim-javascript'
+"Plugin 'Quramy/tsuquyomi'
+""======================================
+"Plugin 'mattn/emmet-vim' "html for vim
 "========================================
 " Plugins used previously that might
 " not be necessary after python-mode
@@ -85,7 +93,7 @@ autocmd ColorScheme * highlight StatusLine ctermbg=darkgray cterm=NONE guibg=dar
 "================================
 " Spaces & Tabs
 "================================
-au BufNewFile,BufRead *.py, *.cpp, *.hpp
+au BufNewFile,BufRead *.py,*.cpp,*.hpp
     \ set tabstop=4     "VIM uses this many spaces to show <TAB>
     \ set softtabstop=4 "number of spaces inserted when hit <TAB>
     \ set shiftwidth=4  "<TAB> becomes 'insert four spaces'
@@ -96,13 +104,14 @@ au BufNewFile,BufRead *.py, *.cpp, *.hpp
 "================================
 " UI Config
 "================================
-set number relativenumber             " show line numbers relative to the current line
+" set number relativenumber             " show line numbers relative to the current line
+set number
 " hybrid line numbers 
-:augroup numbertoggle
-:  autocmd!
-:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-:augroup END
+" :augroup numbertoggle
+" :  autocmd!
+" :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+" :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+" :augroup END
 set showcmd            " show command in bottom bar
 filetype indent on     " load filetype-specific indent files
 filetype plugin indent on "load filetype-specific indent files
@@ -135,7 +144,7 @@ set ignorecase
 xnoremap p pgvy
 
 " Remap VIM 0 to first non-blank character
-map 0 ^
+" map 0 ^
 
 "================================
 " Movement
@@ -158,7 +167,8 @@ nnoremap gV `[v`]
 let mapleader=","            "leader is comma
 nnoremap <leader><space> :nohlsearch<CR> "turn off search highlight
 nmap <leader>w :w!<cr>        " Fast saving
-map <leader>bd :Bclose<cr>:tabclose<cr>gT "Close the current buffer
+nmap <leader>q :q!<cr>        " Fast quitting
+map <leader>bd :bdelete<cr>:tabclose<cr>gT "Close the current buffer
 map <leader>ba :bufdo bd<cr>  "Close all the buffers
 map <leader>l :bnext<cr>  " Go to next buffer
 map <leader>h :bprevious<cr> " Go to previous buffer
@@ -181,20 +191,17 @@ syntax on
 set encoding=utf-8 "UTF8 when working with Python
 
 "================================
+" Deoplete
+" ===============================
+let g:deoplete#enable_at_startup = 1
+
+"================================
 " VIM airline config
 "================================
 let g:airline#extensions#tabline#enabled = 1 "enable the extension
 let g:airline#extensions#tabline#left_sep = ' ' "straight tabs??
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default' "path formatter
-
-"================================
-" UltiSnips config
-"================================
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "===============================
 " Vim completor config
@@ -294,3 +301,6 @@ autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 let g:go_version_warning=0
 let g:go_metalinter_enabled=1
 let g:go_metalinter_autosave=1
+
+
+let g:deoplete#enable_at_startup = 1
