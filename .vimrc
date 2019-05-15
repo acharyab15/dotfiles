@@ -35,6 +35,8 @@ Plugin 'roxma/vim-hug-neovim-rpc'
 Plugin 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
 "--------------------------------------
 Plugin 'christoomey/vim-tmux-navigator' "navigate between vim panes and tmux splits
+"----------------------------------------
+Plugin 'https://bitbucket.org/myndshft/mynd-config-vim.git'
 "======================================
 "Plugin 'leafgarland/typescript-vim' "typescript highlighting
 "Plugin 'burnettk/vim-angular'
@@ -45,7 +47,7 @@ Plugin 'christoomey/vim-tmux-navigator' "navigate between vim panes and tmux spl
 "========================================
 " Plugins used previously that might
 " not be necessary after python-mode
-Plugin 'w0rp/ale' "async linting
+" Plugin 'w0rp/ale' "async linting
 " Plugin 'maralla/completor.vim' "Async completion
 " Plugin 'vim-scripts/indentpython.vim' "conform to PEP8 indentation
 " Make sure any trailing whitespace is highlighted and deleted
@@ -93,10 +95,18 @@ autocmd ColorScheme * highlight StatusLine ctermbg=darkgray cterm=NONE guibg=dar
 "================================
 " Spaces & Tabs
 "================================
-au BufNewFile,BufRead *.py,*.cpp,*.hpp
+au BufNewFile,BufRead *.py,*.cpp,*.hpp,*.sh
     \ set tabstop=4     "VIM uses this many spaces to show <TAB>
     \ set softtabstop=4 "number of spaces inserted when hit <TAB>
     \ set shiftwidth=4  "<TAB> becomes 'insert four spaces'
+    \ set textwidth=79  "line under 80 characters
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix "so that no conversion issues
+au BufNewFile,BufRead *.html
+    \ set tabstop=2     "VIM uses this many spaces to show <TAB>
+    \ set softtabstop=2 "number of spaces inserted when hit <TAB>
+    \ set shiftwidth=2  "<TAB> becomes 'insert four spaces'
     \ set textwidth=79  "line under 80 characters
     \ set expandtab
     \ set autoindent
@@ -194,6 +204,9 @@ set encoding=utf-8 "UTF8 when working with Python
 " Deoplete
 " ===============================
 let g:deoplete#enable_at_startup = 1
+let g:deoplette#disable_auto_complete = 0
+let g:deoplete#sources#go#gocode_binary = '/Users/acharyab/go/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 
 "================================
 " VIM airline config

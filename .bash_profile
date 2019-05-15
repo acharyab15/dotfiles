@@ -19,7 +19,8 @@ export TERM=xterm-256color
 
 
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin:usr/local/kubebuilder/bin:/Developer/usr/bin
+export PATH="/usr/local/opt/openssl/bin:$PATH"
 
 alias qfind="find . -name "                 # qfind:    Quickly search for file
 
@@ -27,7 +28,7 @@ alias qfind="find . -name "                 # qfind:    Quickly search for file
 #   NETWORKING
 #   ---------------------------
 
-alias myip='curl ip.appspot.com'                    # myip:         Public facing IP Address
+alias myip='curl ipv4.icanhazip.com'                # myip:         Public facing IP Address
 alias netCons='lsof -i'                             # netCons:      Show all open TCP/IP sockets
 alias flushDNS='dscacheutil -flushcache'            # flushDNS:     Flush out the DNS Cache
 alias lsock='sudo /usr/sbin/lsof -i -P'             # lsock:        Display open sockets
@@ -54,7 +55,7 @@ alias .4='cd ../../../../'                  # Go back 4 directory levels
 alias .5='cd ../../../../../'               # Go back 5 directory levels
 alias .6='cd ../../../../../../'            # Go back 6 directory levels
 cd() { builtin cd "$@"; ls; }               # Always list directory contents upon 'cd'
-alias c='clear'                             # c:            Clear terminal display
+alias cl='clear;ls'                             # c:            Clear terminal display
 alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
 alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable Paths
 mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
@@ -65,6 +66,15 @@ alias gs='git status'
 alias gp='git pull'
 alias gh='git push'
 alias ga='git add'
+alias cat='bat'
+alias top='htop'
+alias cbc='cd ~/go/src/bitbucket.org/myndshft/cbclaims-controller'
+alias cbd='cd ~/go/src/bitbucket.org/myndshft/cbclaims-deployment'
+alias cpi='cd ~/go/src/bitbucket.org/myndshft/cloudsql-proxy-injector'
+alias gohome='cd ~/go/src/github.com/acharyab'
+alias kgap='watch kubectl get po --all-namespaces'
+alias kgp='watch kubectl get po'
+
 kubexec() {
 	kubectl exec -ti $(kubectl get pods | awk ' { print $1 } ' | grep "$1") bash
 }
@@ -75,14 +85,14 @@ alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\
 
 
 
-export PATH="/usr/local/bin/python3:$PATH"
-
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+export PATH=$PATH:"/usr/local/kubebuilder/bin"
 #   ttop:  Recommended 'top' invocation to minimize resources
 #   ------------------------------------------------------------
 #       Taken from this macosxhints article
 #       http://www.macosxhints.com/article.php?story=20060816123853639
 #   ------------------------------------------------------------
-    alias ttop="top -R -F -s 10 -o rsize"
+    # alias ttop="top -R -F -s 10 -o rsize"
 
 
 # # added by Anaconda3 5.0.1 installer
@@ -98,3 +108,6 @@ export PATH="/usr/local/bin/python3:$PATH"
 #NVM stuff
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
+
+# Adding bash completion to iterm
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
