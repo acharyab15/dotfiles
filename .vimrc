@@ -40,6 +40,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'scrooloose/nerdtree'
+
 call plug#end()
 
 "*****************************************************************************
@@ -303,3 +305,14 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " disable vim-go :GoDef short cut (gd)
 " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
+
+
+" *********************************************
+" PLUGIN SPECIFIC
+" *********************************************
+"
+" NERDTREE
+" -----------------------
+
+" Open NERDTREE with Ctrl+n
+map <C-n> :NERDTreeToggle<CR>
